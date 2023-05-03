@@ -1,31 +1,52 @@
 #include <iostream>
 using namespace std;
-#include <stack>
-int main() {
-  stack<int> st;
 
-  // creating the sample stack
-  st.push(61);
-  st.push(7);
-  st.push(14);
-  st.push(4);
-  st.push(2);
-  st.push(1);
-  st.push(9);
-  st.push(8);
+int arr[1000];
+int top=0;
 
-  int k = 2;
-  int maxi = 0; // to keep track of maximum element
-  while (k>0) {   // Perform until k=0 i.e perform k operations
-    int top = st.top();
-    st.pop();
-
-    maxi = max(maxi,top); // check if top can be the max element encountered till now
-
-    k--; // 1 operation done so reduce k by 1
-
-    if (k == 0 and  st.top() < maxi) // if all operations are done and now top of stack is less than maxi then push maxi back into the stack (becuz we need to maximize the top element)
-       st.push(maxi);
+class Stack{
+  public:
+  Stack(){
+    top =-1;
   }
-  cout << st.top();
+
+  void push(int x){
+    top++;
+    arr[top]=x;
+  }
+
+  void pop(){
+    top--;
+  }
+};
+int main() {
+  Stack s;
+  s.push(10);
+  s.push(50);
+  s.push(30);
+  s.push(40);
+  
+  int k=5;
+  int maxi=0;
+  
+  while(k){
+    if(top >=0){
+       maxi=max(maxi,arr[top]);
+      s.pop();
+    }
+    else
+      s.push(maxi);
+    
+    k--;
+    
+    if(k==1 and arr[top-1]<=maxi){
+        s.push(maxi);
+        k--;
+    }
+    else if(k==1 and arr[top-1]>maxi){
+        s.pop();
+        k--;
+    }
+  }
+  cout<<arr[top];
 }
